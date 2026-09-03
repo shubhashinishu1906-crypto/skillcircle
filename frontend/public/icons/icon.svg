@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" role="img" aria-label="SkillCircle">
+  <rect width="192" height="192" rx="42" fill="#0f172a"/>
+  <circle cx="96" cy="96" r="58" fill="#34d399"/>
+  <path d="M96 54c-23 0-42 17-42 38 0 14 8 26 20 33v16h44v-16c12-7 20-19 20-33 0-21-19-38-42-38Zm-13 103h26v10H83v-10Z" fill="#0f172a"/>
+  <circle cx="80" cy="91" r="6" fill="#34d399"/>
+  <circle cx="112" cy="91" r="6" fill="#34d399"/>
+</svg>

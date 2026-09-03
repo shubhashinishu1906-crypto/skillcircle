@@ -1,0 +1,5 @@
+
+> frontend@0.1.0 build
+> next build ; type build-output.txt; echo EXIT:0
+
+Invalid project directory provided, no such directory: c:\Users\STUDENT\Desktop\skillcircle\frontend\;

@@ -34,7 +34,14 @@ async function requireAuth(req: AuthedRequest, res: Response, next: NextFunction
   const token = req.headers.authorization?.startsWith("Bearer ") ? req.headers.authorization.slice(7) : "";
   if (!token) { res.status(401).json({ error: "Authentication required." }); return; }
   try { const decoded = await getFirebaseAdminAuth().verifyIdToken(token); req.uid = decoded.uid; req.email = decoded.email || ""; req.name = decoded.name || "Student"; req.photoUrl = decoded.picture; next(); }
-  catch { res.status(401).json({ error: "Invalid or expired Firebase ID token." }); }
+  catch (error) {
+    console.error("Firebase authentication failed:", error);
+    if (error instanceof Error && error.message.startsWith("Missing Firebase Admin credentials")) {
+      res.status(503).json({ error: "Firebase Admin is not configured on the server." });
+      return;
+    }
+    res.status(401).json({ error: "Invalid or expired Firebase ID token." });
+  }
 }
 function ensureDatabase(res: Response) { if (mongoose.connection.readyState !== 1) { res.status(503).json({ error: "MongoDB is not connected. Set MONGODB_URI in the shared .env file." }); return false; } return true; }
 async function profileFor(uid: string, data?: Partial<{ email: string; name: string; photoUrl: string }>) { return Profile.findOneAndUpdate({ uid }, { $setOnInsert: { uid, email: data?.email || "", name: data?.name || "Student", photoUrl: data?.photoUrl } }, { upsert: true, new: true }); }

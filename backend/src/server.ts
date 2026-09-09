@@ -2,11 +2,15 @@ import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import path from "node:path";
+import { existsSync } from "node:fs";
 import mongoose, { Schema } from "mongoose";
 import { v2 as cloudinary } from "cloudinary";
 import { getFirebaseAdminAuth } from "./firebase-admin.js";
 
-dotenv.config({ path: path.resolve(process.cwd(), "../.env") });
+const envFile = process.env.ENV_FILE || (existsSync(path.resolve(process.cwd(), "../.env"))
+  ? path.resolve(process.cwd(), "../.env")
+  : path.resolve(process.cwd(), ".env"));
+dotenv.config({ path: envFile });
 
 const app = express();
 const port = Number(process.env.PORT || 4000);

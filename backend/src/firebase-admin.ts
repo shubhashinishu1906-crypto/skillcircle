@@ -2,7 +2,12 @@ import { applicationDefault, cert, getApps, initializeApp } from "firebase-admin
 import { getAuth } from "firebase-admin/auth";
 import dotenv from "dotenv";
 import path from "node:path";
-dotenv.config({ path: path.resolve(process.cwd(), "../.env") });
+import { existsSync } from "node:fs";
+
+const envFile = process.env.ENV_FILE || (existsSync(path.resolve(process.cwd(), "../.env"))
+  ? path.resolve(process.cwd(), "../.env")
+  : path.resolve(process.cwd(), ".env"));
+dotenv.config({ path: envFile });
 
 const projectId = process.env.FIREBASE_PROJECT_ID;
 const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;

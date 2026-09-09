@@ -10,10 +10,11 @@ dotenv.config({ path: path.resolve(process.cwd(), "../.env") });
 
 const app = express();
 const port = Number(process.env.PORT || 4000);
+const frontendDirectory = process.env.FRONTEND_DIR || path.resolve(process.cwd(), "../frontend");
 
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json({ limit: "8mb" }));
-app.use(express.static(path.resolve(process.cwd(), "../frontend"), { setHeaders: (res) => res.setHeader("Cache-Control", "no-store") }));
+app.use(express.static(frontendDirectory, { setHeaders: (res) => res.setHeader("Cache-Control", "no-store") }));
 
 const profileSchema = new Schema({ uid: { type: String, required: true, unique: true }, email: { type: String, required: true }, name: { type: String, default: "Student" }, photoUrl: String, bio: { type: String, default: "" }, college: { type: String, default: "" }, degree: { type: String, default: "" }, skills: [String], interests: [String], projects: [String], connections: { type: Number, default: 0 } }, { timestamps: true });
 const postSchema = new Schema({ authorUid: { type: String, required: true }, text: { type: String, required: true, maxlength: 5000 }, imageUrl: String, likes: { type: [String], default: [] }, comments: [{ uid: String, text: String }] }, { timestamps: true });

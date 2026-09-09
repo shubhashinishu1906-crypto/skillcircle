@@ -1,7 +1,9 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js';
 import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, signOut } from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js';
 
-const API = `${location.protocol}//${location.hostname}:4000`;
+const API = location.hostname === 'localhost' && location.port !== '4000'
+  ? 'http://localhost:4000'
+  : '';
 const root = document.querySelector('#app');
 let auth, user, profile, posts = [], students = [], notices = [], tab = 'home', theme = localStorage.getItem('skillcircle-theme') || 'light';
 document.documentElement.dataset.theme = theme;
